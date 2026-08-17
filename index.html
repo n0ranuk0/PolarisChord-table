@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>音ゲー 譜面定数表</title>
+  <style>
+    :root {
+      --bg-color: #0f1117;
+      --card-bg: #1a1d26;
+      --text-color: #f0f4f8;
+      --accent-gold: #ffd700;
+      --border-color: #2d3240;
+
+      /* 指定された難易度カラー */
+      --diff-easy: #00bfff;      /* EASY / 水色 */
+      --diff-normal: #32cd32;    /* NORMAL / 黄緑 */
+      --diff-hard: #ff8c00;      /* HARD / 橙 */
+      --diff-influence: #ff3333; /* INFLUENCE / 赤 */
+      --diff-polar: #a020f0;     /* POLAR / 紫 */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 20px;
+      line-height: 1.5;
+    }
+
+    header {
+      max-width: 1200px;
+      margin: 0 auto 24px auto;
+      background: #161922;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h1::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 1.4rem;
+      background: var(--accent-gold);
+      border-radius: 3px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      background: #202430;
+      padding: 12px 16px;
+      border-radius: 8px;
+    }
+
+    .control-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    input[type="range"] {
+      cursor: pointer;
+    }
+
+    .search-box {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      color: #fff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .search-box:focus {
+      border-color: var(--accent-gold);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .constant-section {
+      margin-bottom: 28px;
+    }
+
+    .constant-header {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--accent-gold);
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .count-badge {
+      font-size: 0.8rem;
+      background: #2b303c;
+      color: #aaa;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .song-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* 楽曲カード */
+    .song-card {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border-color);
+      transition: transform 0.1s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .song-card:hover {
+      transform: translateY(-2px);
+    }
+
+    /* ジャケット画像の全周を色枠で囲うコンテナ (1:1アスペクト比) */
+    .jacket-wrapper {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #282c37;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* 太さ4pxの枠線でジャケット全周を囲う */
+      border: 4px solid var(--border-color);
+      box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    }
+
+    /* 難易度別のジャケット囲み枠カラー */
+    .jacket-wrapper.diff-easy { border-color: var(--diff-easy); }
+    .jacket-wrapper.diff-normal { border-color: var(--diff-normal); }
+    .jacket-wrapper.diff-hard { border-color: var(--diff-hard); }
+    .jacket-wrapper.diff-influence { border-color: var(--diff-influence); }
+    .jacket-wrapper.diff-polar { border-color: var(--diff-polar); }
+
+    .song-jacket {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .no-jacket {
+      font-size: 0.75rem;
+      color: #666;
+      text-align: center;
+      padding: 4px;
+    }
+
+    .song-title {
+      font-weight: bold;
+      word-break: break-all;
+      line-height: 1.2;
+    }
+
+    .song-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      font-size: 0.75rem;
+    }
+
+    /* 難易度表示バッジ */
+    .diff-badge {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      color: #fff;
+      font-size: 0.7rem;
+    }
+
+    .diff-badge.diff-easy { background-color: var(--diff-easy); color: #000; }
+    .diff-badge.diff-normal { background-color: var(--diff-normal); color: #000; }
+    .diff-badge.diff-hard { background-color: var(--diff-hard); }
+    .diff-badge.diff-influence { background-color: var(--diff-influence); }
+    .diff-badge.diff-polar { background-color: var(--diff-polar); }
+
+    .no-data {
+      text-align: center;
+      padding: 40px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      color: #8a92a6;
+    }
+
+    #file-input { display: none; }
+
+    .file-btn {
+      background: var(--accent-gold);
+      color: #121212;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    .file-btn:hover { opacity: 0.9; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>CHUNITHM 譜面定数表</h1>
+    <div class="controls">
+      <label class="control-item">
+        <input type="checkbox" id="toggle-hard" checked>
+        HARDを表示
+      </label>
+
+      <label class="control-item">
+        <input type="checkbox" id="toggle-normal" checked>
+        NORMAL以下を表示
+      </label>
+
+      <label class="control-item">
+        カード幅:
+        <input type="range" id="width-slider" min="120" max="250" value="160">
+      </label>
+
+      <input type="text" id="search-input" class="search-box" placeholder="楽曲名で検索...">
+
+      <label class="file-btn" for="file-input">CSVを手動選択</label>
+      <input type="file" id="file-input" accept=".csv">
+    </div>
+  </header>
+
+  <main id="constant-container">
+    <div class="no-data">データを読み込み中...</div>
+  </main>
+
+  <script>
+    let allSongs = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchDataCSV();
+
+      document.getElementById("toggle-hard").addEventListener("change", renderTable);
+      document.getElementById("toggle-normal").addEventListener("change", renderTable);
+      document.getElementById("width-slider").addEventListener("input", renderTable);
+      document.getElementById("search-input").addEventListener("input", renderTable);
+      
+      document.getElementById("file-input").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (evt) => parseCSV(evt.target.result);
+          reader.readAsText(file, "UTF-8");
+        }
+      });
+    });
+
+    async function fetchDataCSV() {
+      try {
+        const res = await fetch("data.csv");
+        if (!res.ok) throw new Error("CSV not found");
+        const text = await res.text();
+        parseCSV(text);
+      } catch (err) {
+        document.getElementById("constant-container").innerHTML = `
+          <div class="no-data">
+            data.csv が見つかりませんでした。<br>
+            「data.csv」をindex.htmlと同じフォルダに置くか、右上のボタンからファイルを選択してください。
+          </div>`;
+      }
+    }
+
+    function parseCSV(csvText) {
+      const lines = csvText.trim().split(/\r?\n/);
+      if (lines.length <= 1) {
+        document.getElementById("constant-container").innerHTML = '<div class="no-data">有効なデータが見つかりませんでした。</div>';
+        return;
+      }
+
+      allSongs = [];
+      for (let i = 1; i < lines.length; i++) {
+        const row = parseCSVLine(lines[i]);
+        if (row.length >= 2) {
+          const title = row[0]?.trim() || "";
+          const constant = parseFloat(row[1]);
+          const difficulty = row[2]?.trim() || "POLAR";
+          const jacket = row[3]?.trim() || "";
+          const note = row[4]?.trim() || "";
+
+          if (title && !isNaN(constant)) {
+            allSongs.push({ title, constant, difficulty, jacket, note });
+          }
+        }
+      }
+      renderTable();
+    }
+
+    function parseCSVLine(text) {
+      const result = [];
+      let cell = '';
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (c === '"') {
+          inQuotes = !inQuotes;
+        } else if (c === ',' && !inQuotes) {
+          result.push(cell);
+          cell = '';
+        } else {
+          cell += c;
+        }
+      }
+      result.push(cell);
+      return result;
+    }
+
+    function renderTable() {
+      const container = document.getElementById("constant-container");
+      const showHard = document.getElementById("toggle-hard").checked;
+      const showNormal = document.getElementById("toggle-normal").checked;
+      const cardWidth = document.getElementById("width-slider").value + "px";
+      const searchText = document.getElementById("search-input").value.toLowerCase();
+
+      container.innerHTML = "";
+
+      const filtered = allSongs.filter(song => {
+        const diffUpper = song.difficulty.toUpperCase();
+        if (!showHard && diffUpper === "HARD") return false;
+        if (!showNormal && (diffUpper === "NORMAL" || diffUpper === "EASY")) return false;
+        if (searchText && !song.title.toLowerCase().includes(searchText)) return false;
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="no-data">該当する楽曲がありません。</div>';
+        return;
+      }
+
+      const grouped = {};
+      filtered.forEach(song => {
+        const key = song.constant.toFixed(1);
+        if (!grouped[key]) grouped[key] = [];
+        grouped[key].push(song);
+      });
+
+      const sortedKeys = Object.keys(grouped).sort((a, b) => parseFloat(b) - parseFloat(a));
+
+      sortedKeys.forEach(key => {
+        const section = document.createElement("div");
+        section.className = "constant-section";
+
+        const header = document.createElement("div");
+        header.className = "constant-header";
+        header.innerHTML = `<span>${key}</span> <span class="count-badge">${grouped[key].length}曲</span>`;
+        section.appendChild(header);
+
+        const grid = document.createElement("div");
+        grid.className = "song-grid";
+
+        grouped[key].forEach(song => {
+          const card = document.createElement("div");
+          const diffKey = song.difficulty.toLowerCase();
+          const diffClass = `diff-${diffKey}`;
+          card.className = "song-card";
+          card.style.width = cardWidth;
+
+          // ジャケット画像のHTML生成 (1:1で枠線を囲う)
+          const jacketHtml = song.jacket 
+            ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=\'no-jacket\'>No Image</span>'">`
+            : `<span class="no-jacket">No Image</span>`;
+
+          card.innerHTML = `
+            <div class="jacket-wrapper ${diffClass}">
+              ${jacketHtml}
+            </div>
+            <div class="song-title">${escapeHTML(song.title)}</div>
+            <div class="song-meta">
+              <span class="diff-badge ${diffClass}">${escapeHTML(song.difficulty)}</span>
+              <span>${escapeHTML(song.note)}</span>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+  </script>
+</body>
+</html>
