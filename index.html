@@ -167,7 +167,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      /* 太さ4pxの枠線でジャケット全周を囲う */
       border: 4px solid var(--border-color);
       box-shadow: 0 0 8px rgba(0,0,0,0.5);
     }
@@ -222,6 +221,11 @@
     .diff-badge.diff-influence { background-color: var(--diff-influence); }
     .diff-badge.diff-polar { background-color: var(--diff-polar); }
 
+    .genre-tag {
+      color: #a0aabe;
+      font-size: 0.7rem;
+    }
+
     .no-data {
       text-align: center;
       padding: 40px;
@@ -243,6 +247,34 @@
     }
 
     .file-btn:hover { opacity: 0.9; }
+
+    /* フッター設定 */
+    footer {
+      max-width: 1200px;
+      margin: 40px auto 20px auto;
+      padding: 20px;
+      background: #161922;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      color: #8a92a6;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    footer p {
+      margin-bottom: 6px;
+    }
+
+    footer p:last-child {
+      margin-bottom: 0;
+    }
+
+    .footer-admin {
+      color: var(--text-color);
+      font-weight: bold;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -276,8 +308,24 @@
     <div class="no-data">データを読み込み中...</div>
   </main>
 
+  <footer>
+    <p>サイト上のロゴ・背景・楽曲ジャケット画像の著作権は、全て著作権所持者に帰属します。</p>
+    <p>本サイトは非公式のものであり、KONAMI様及びその関連会社とは一切関係ありません。</p>
+    <p class="footer-admin">サイト管理者 : ちーちゃん</p>
+  </footer>
+
   <script>
     let allSongs = [];
+
+    // ジャンルソート優先順位（小文字変換で判定）
+    const GENRE_ORDER = [
+      "virtual",
+      "ソーシャルミュージック",
+      "pops&アニメ",
+      "東方",
+      "バラエティ",
+      "オリジナル"
+    ];
 
     document.addEventListener("DOMContentLoaded", () => {
       fetchDataCSV();
@@ -322,15 +370,35 @@
       allSongs = [];
       for (let i = 1; i < lines.length; i++) {
         const row = parseCSVLine(lines[i]);
-        if (row.length >= 2) {
+        if (row.length >= 3) {
+          // 列の対応関係: 楽曲名(0), ジャンル(1), 譜面定数(2), 難易度(3), 配信日(4), ジャケット(5)
           const title = row[0]?.trim() || "";
-          const constant = parseFloat(row[1]);
-          const difficulty = row[2]?.trim() || "POLAR";
-          const jacket = row[3]?.trim() || "";
-          const note = row[4]?.trim() || "";
+          const genre = row[1]?.trim() || "";
+          const constant = parseFloat(row[2]);
+          const difficulty = row[3]?.trim() || "POLAR";
+          const releaseDateRaw = row[4]?.trim() || "";
+          const jacket = row[5]?.trim() || "";
+
+          // 日付文字列 (YYYY/M/D) を解析可能な Date に変換
+          let releaseDate = new Date("9999-12-31");
+          if (releaseDateRaw) {
+            const formatted = releaseDateRaw.replace(/\//g, "-");
+            const parsed = Date.parse(formatted);
+            if (!isNaN(parsed)) {
+              releaseDate = new Date(parsed);
+            }
+          }
 
           if (title && !isNaN(constant)) {
-            allSongs.push({ title, constant, difficulty, jacket, note });
+            allSongs.push({
+              title,
+              genre,
+              constant,
+              difficulty,
+              releaseDateRaw,
+              releaseDate,
+              jacket
+            });
           }
         }
       }
@@ -388,6 +456,27 @@
       const sortedKeys = Object.keys(grouped).sort((a, b) => parseFloat(b) - parseFloat(a));
 
       sortedKeys.forEach(key => {
+        // 同じ定数内の曲をソートする
+        grouped[key].sort((a, b) => {
+          // 1. 配信日が古い順（早い日付が左上）
+          if (a.releaseDate.getTime() !== b.releaseDate.getTime()) {
+            return a.releaseDate.getTime() - b.releaseDate.getTime();
+          }
+
+          // 2. 同じ配信日の場合はジャンル順
+          const gIndexA = GENRE_ORDER.indexOf(a.genre.toLowerCase());
+          const gIndexB = GENRE_ORDER.indexOf(b.genre.toLowerCase());
+          const orderA = gIndexA !== -1 ? gIndexA : 99;
+          const orderB = gIndexB !== -1 ? gIndexB : 99;
+
+          if (orderA !== orderB) {
+            return orderA - orderB;
+          }
+
+          // 3. 同ジャンル同日の場合はタイトル順
+          return a.title.localeCompare(b.title, "ja");
+        });
+
         const section = document.createElement("div");
         section.className = "constant-section";
 
@@ -406,7 +495,6 @@
           card.className = "song-card";
           card.style.width = cardWidth;
 
-          // ジャケット画像のHTML生成 (1:1で枠線を囲う)
           const jacketHtml = song.jacket 
             ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=\'no-jacket\'>No Image</span>'">`
             : `<span class="no-jacket">No Image</span>`;
@@ -418,7 +506,7 @@
             <div class="song-title">${escapeHTML(song.title)}</div>
             <div class="song-meta">
               <span class="diff-badge ${diffClass}">${escapeHTML(song.difficulty)}</span>
-              <span>${escapeHTML(song.note)}</span>
+              <span class="genre-tag">${escapeHTML(song.genre)}</span>
             </div>
           `;
           grid.appendChild(card);
