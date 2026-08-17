@@ -98,6 +98,7 @@
       color: #fff;
       font-size: 0.9rem;
       outline: none;
+      margin-left: auto; /* 検索ボックスを右寄せ */
     }
 
     .search-box:focus {
@@ -234,20 +235,6 @@
       color: #8a92a6;
     }
 
-    #file-input { display: none; }
-
-    .file-btn {
-      background: var(--accent-gold);
-      color: #121212;
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 0.85rem;
-    }
-
-    .file-btn:hover { opacity: 0.9; }
-
     /* フッター設定 */
     footer {
       max-width: 1200px;
@@ -288,7 +275,7 @@
       </label>
 
       <label class="control-item">
-        <input type="checkbox" id="toggle-normal" checked>
+        <input type="checkbox" id="toggle-normal">
         NORMAL以下を表示
       </label>
 
@@ -298,9 +285,6 @@
       </label>
 
       <input type="text" id="search-input" class="search-box" placeholder="楽曲名で検索...">
-
-      <label class="file-btn" for="file-input">CSVを手動選択</label>
-      <input type="file" id="file-input" accept=".csv">
     </div>
   </header>
 
@@ -334,15 +318,6 @@
       document.getElementById("toggle-normal").addEventListener("change", renderTable);
       document.getElementById("width-slider").addEventListener("input", renderTable);
       document.getElementById("search-input").addEventListener("input", renderTable);
-      
-      document.getElementById("file-input").addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (evt) => parseCSV(evt.target.result);
-          reader.readAsText(file, "UTF-8");
-        }
-      });
     });
 
     async function fetchDataCSV() {
@@ -355,7 +330,7 @@
         document.getElementById("constant-container").innerHTML = `
           <div class="no-data">
             data.csv が見つかりませんでした。<br>
-            「data.csv」をindex.htmlと同じフォルダに置くか、右上のボタンからファイルを選択してください。
+            「data.csv」をindex.htmlと同じフォルダに配置してください。
           </div>`;
       }
     }
@@ -371,7 +346,6 @@
       for (let i = 1; i < lines.length; i++) {
         const row = parseCSVLine(lines[i]);
         if (row.length >= 3) {
-          // 列の対応関係: 楽曲名(0), ジャンル(1), 譜面定数(2), 難易度(3), 配信日(4), ジャケット(5)
           const title = row[0]?.trim() || "";
           const genre = row[1]?.trim() || "";
           const constant = parseFloat(row[2]);
@@ -379,7 +353,6 @@
           const releaseDateRaw = row[4]?.trim() || "";
           const jacket = row[5]?.trim() || "";
 
-          // 日付文字列 (YYYY/M/D) を解析可能な Date に変換
           let releaseDate = new Date("9999-12-31");
           if (releaseDateRaw) {
             const formatted = releaseDateRaw.replace(/\//g, "-");
@@ -456,14 +429,11 @@
       const sortedKeys = Object.keys(grouped).sort((a, b) => parseFloat(b) - parseFloat(a));
 
       sortedKeys.forEach(key => {
-        // 同じ定数内の曲をソートする
         grouped[key].sort((a, b) => {
-          // 1. 配信日が古い順（早い日付が左上）
           if (a.releaseDate.getTime() !== b.releaseDate.getTime()) {
             return a.releaseDate.getTime() - b.releaseDate.getTime();
           }
 
-          // 2. 同じ配信日の場合はジャンル順
           const gIndexA = GENRE_ORDER.indexOf(a.genre.toLowerCase());
           const gIndexB = GENRE_ORDER.indexOf(b.genre.toLowerCase());
           const orderA = gIndexA !== -1 ? gIndexA : 99;
@@ -473,7 +443,6 @@
             return orderA - orderB;
           }
 
-          // 3. 同ジャンル同日の場合はタイトル順
           return a.title.localeCompare(b.title, "ja");
         });
 
@@ -496,7 +465,7 @@
           card.style.width = cardWidth;
 
           const jacketHtml = song.jacket 
-            ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=\'no-jacket\'>No Image</span>'">`
+            ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=&quot;no-jacket&quot;>No Image</span>'">`
             : `<span class="no-jacket">No Image</span>`;
 
           card.innerHTML = `
