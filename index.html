@@ -347,20 +347,10 @@
         const row = parseCSVLine(lines[i]);
         if (row.length >= 3) {
           const title = row[0]?.trim() || "";
-          const genre = row[1]?.trim() || "";
-          const constant = parseFloat(row[2]);
-          const difficulty = row[3]?.trim() || "POLAR";
-          const releaseDateRaw = row[4]?.trim() || "";
-          const jacket = row[5]?.trim() || "";
-
-          let releaseDate = new Date("9999-12-31");
-          if (releaseDateRaw) {
-            const formatted = releaseDateRaw.replace(/\//g, "-");
-            const parsed = Date.parse(formatted);
-            if (!isNaN(parsed)) {
-              releaseDate = new Date(parsed);
-            }
-          }
+          const constant = parseFloat(row[1]); // 2列目：譜面定数
+          const difficulty = row[2]?.trim() || "POLAR"; // 3列目：難易度
+          const jacket = row[3]?.trim() || ""; // 4列目：ジャケット画像名
+          const genre = row[4]?.trim() || ""; // 5列目：備考（またはジャンル）
 
           if (title && !isNaN(constant)) {
             allSongs.push({
@@ -368,8 +358,7 @@
               genre,
               constant,
               difficulty,
-              releaseDateRaw,
-              releaseDate,
+              releaseDate: new Date("9999-12-31"), // 日付指定がないためデフォルト
               jacket
             });
           }
