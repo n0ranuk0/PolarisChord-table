@@ -465,8 +465,8 @@
           card.style.width = cardWidth;
 
           const jacketHtml = song.jacket 
-            ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=\\'no-jacket\\'>No Image</span>'">`
-            : `<span class="no-jacket">No Image</span>`;
+          ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=\&quot;no-jacket\&quot;>No Image</span>'">`
+          : `<span class="no-jacket">No Image</span>`;
 
           card.innerHTML = `
             <div class="jacket-wrapper ${diffClass}">
