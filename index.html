@@ -12,12 +12,11 @@
       --accent-gold: #ffd700;
       --border-color: #2d3240;
 
-      /* 難易度カラー */
-      --diff-easy: #00bfff;      /* EASY / 水色 */
-      --diff-normal: #32cd32;    /* NORMAL / 黄緑 */
-      --diff-hard: #ff8c00;      /* HARD / 橙 */
-      --diff-influence: #ff3333; /* INFLUENCE / 赤 */
-      --diff-polar: #a020f0;     /* POLAR / 紫 */
+      --diff-easy: #00bfff;
+      --diff-normal: #32cd32;
+      --diff-hard: #ff8c00;
+      --diff-influence: #ff3333;
+      --diff-polar: #a020f0;
     }
 
     * {
@@ -98,7 +97,7 @@
       color: #fff;
       font-size: 0.9rem;
       outline: none;
-      margin-left: auto; /* 検索ボックス右寄せ */
+      margin-left: auto;
     }
 
     .search-box:focus {
@@ -140,7 +139,6 @@
       gap: 12px;
     }
 
-    /* 楽曲カード */
     .song-card {
       background: var(--card-bg);
       border-radius: 8px;
@@ -158,7 +156,6 @@
       transform: translateY(-2px);
     }
 
-    /* ジャケット画像の全周枠 */
     .jacket-wrapper {
       width: 100%;
       aspect-ratio: 1 / 1;
@@ -460,7 +457,6 @@
           card.className = "song-card";
           card.style.width = cardWidth;
 
-          /* 安全なonerror指定（クォーテーション競合回避） */
           const jacketHtml = song.jacket 
             ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=no-jacket>No Image</span>'">`
             : `<span class="no-jacket">No Image</span>`;
