@@ -17,6 +17,14 @@
       --diff-hard: #ff8c00;
       --diff-influence: #ff3333;
       --diff-polar: #a020f0;
+
+      /* ジャンルカラー */
+      --genre-virtual: #a020f0;  /* V / 紫 */
+      --genre-social: #1e90ff;   /* ソ / 青 */
+      --genre-pops: #ffd700;     /* ポ / 黄 */
+      --genre-touhou: #ff8c00;   /* 東 / 橙 */
+      --genre-variety: #32cd32;  /* バ / 緑 */
+      --genre-original: #00bfff; /* オ / 水色 */
     }
 
     * {
@@ -157,6 +165,7 @@
     }
 
     .jacket-wrapper {
+      position: relative; /* バッジの基準位置 */
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 6px;
@@ -189,6 +198,35 @@
       padding: 4px;
     }
 
+    /* ジャケット内右下のジャンルバッジスタイル */
+    .genre-overlay {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      min-width: 28px;
+      height: 20px;
+      padding: 0 8px 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.75rem;
+      color: #fff;
+      /* 左上が丸く、左下が少し左に長くなるポリゴン形状 */
+      border-top-left-radius: 8px;
+      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+      box-shadow: -2px -2px 6px rgba(0,0,0,0.5);
+      z-index: 2;
+    }
+
+    /* 各ジャンルの背景色（黄色などは文字を黒にして見やすく設定） */
+    .genre-overlay.genre-virtual { background-color: var(--genre-virtual); }
+    .genre-overlay.genre-social { background-color: var(--genre-social); }
+    .genre-overlay.genre-pops { background-color: var(--genre-pops); color: #000; }
+    .genre-overlay.genre-touhou { background-color: var(--genre-touhou); }
+    .genre-overlay.genre-variety { background-color: var(--genre-variety); color: #000; }
+    .genre-overlay.genre-original { background-color: var(--genre-original); color: #000; }
+
     .song-title {
       font-weight: bold;
       word-break: break-all;
@@ -197,7 +235,7 @@
 
     .song-meta {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
       margin-top: auto;
       font-size: 0.75rem;
@@ -216,11 +254,6 @@
     .diff-badge.diff-hard { background-color: var(--diff-hard); }
     .diff-badge.diff-influence { background-color: var(--diff-influence); }
     .diff-badge.diff-polar { background-color: var(--diff-polar); }
-
-    .genre-tag {
-      color: #a0aabe;
-      font-size: 0.7rem;
-    }
 
     .no-data {
       text-align: center;
@@ -390,6 +423,24 @@
       return result;
     }
 
+    function getGenreInfo(genreStr) {
+      const g = genreStr.toLowerCase();
+      if (g.includes("virtual")) {
+        return { label: "V", className: "genre-virtual" };
+      } else if (g.includes("ソーシャル")) {
+        return { label: "ソ", className: "genre-social" };
+      } else if (g.includes("pops") || g.includes("アニメ")) {
+        return { label: "ポ", className: "genre-pops" };
+      } else if (g.includes("東方")) {
+        return { label: "東", className: "genre-touhou" };
+      } else if (g.includes("バラエティ")) {
+        return { label: "バ", className: "genre-variety" };
+      } else if (g.includes("オリジナル")) {
+        return { label: "オ", className: "genre-original" };
+      }
+      return { label: genreStr.charAt(0) || "他", className: "genre-original" };
+    }
+
     function renderTable() {
       const container = document.getElementById("constant-container");
       const showHard = document.getElementById("toggle-hard").checked;
@@ -454,6 +505,8 @@
           const card = document.createElement("div");
           const diffKey = song.difficulty.toLowerCase();
           const diffClass = `diff-${diffKey}`;
+          const genreInfo = getGenreInfo(song.genre);
+
           card.className = "song-card";
           card.style.width = cardWidth;
 
@@ -464,11 +517,11 @@
           card.innerHTML = `
             <div class="jacket-wrapper ${diffClass}">
               ${jacketHtml}
+              <div class="genre-overlay ${genreInfo.className}">${escapeHTML(genreInfo.label)}</div>
             </div>
             <div class="song-title">${escapeHTML(song.title)}</div>
             <div class="song-meta">
               <span class="diff-badge ${diffClass}">${escapeHTML(song.difficulty)}</span>
-              <span class="genre-tag">${escapeHTML(song.genre)}</span>
             </div>
           `;
           grid.appendChild(card);
