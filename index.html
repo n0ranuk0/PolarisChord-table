@@ -51,9 +51,17 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
 
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
     h1 {
       font-size: 1.6rem;
-      margin-bottom: 12px;
       color: #fff;
       display: flex;
       align-items: center;
@@ -69,14 +77,37 @@
       border-radius: 3px;
     }
 
+    .btn {
+      background: var(--card-bg);
+      color: #fff;
+      border: 1px solid var(--accent-gold);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      background: var(--accent-gold);
+      color: #000;
+    }
+
     .controls {
       display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      align-items: center;
+      flex-direction: column;
+      gap: 12px;
       background: #202430;
-      padding: 12px 16px;
+      padding: 14px 16px;
       border-radius: 8px;
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
     }
 
     .control-item {
@@ -85,12 +116,15 @@
       gap: 8px;
       font-size: 0.9rem;
       cursor: pointer;
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
 
     input[type="checkbox"] {
       width: 16px;
       height: 16px;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     input[type="range"] {
@@ -98,14 +132,14 @@
     }
 
     .search-box {
-      padding: 6px 12px;
+      width: 100%;
+      padding: 8px 12px;
       border-radius: 6px;
       border: 1px solid var(--border-color);
       background: var(--card-bg);
       color: #fff;
       font-size: 0.9rem;
       outline: none;
-      margin-left: auto;
     }
 
     .search-box:focus {
@@ -158,6 +192,7 @@
       flex-direction: column;
       gap: 8px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      position: relative;
     }
 
     .song-card:hover {
@@ -165,7 +200,7 @@
     }
 
     .jacket-wrapper {
-      position: relative; /* バッジの基準位置 */
+      position: relative;
       width: 100%;
       aspect-ratio: 1 / 1;
       border-radius: 6px;
@@ -198,7 +233,6 @@
       padding: 4px;
     }
 
-    /* ジャケット内右下のジャンルバッジスタイル */
     .genre-overlay {
       position: absolute;
       bottom: 0;
@@ -212,14 +246,12 @@
       font-weight: bold;
       font-size: 0.75rem;
       color: #fff;
-      /* 左上が丸く、左下が少し左に長くなるポリゴン形状 */
       border-top-left-radius: 8px;
       clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
       box-shadow: -2px -2px 6px rgba(0,0,0,0.5);
       z-index: 2;
     }
 
-    /* 各ジャンルの背景色（黄色などは文字を黒にして見やすく設定） */
     .genre-overlay.genre-virtual { background-color: var(--genre-virtual); }
     .genre-overlay.genre-social { background-color: var(--genre-social); }
     .genre-overlay.genre-pops { background-color: var(--genre-pops); color: #000; }
@@ -235,7 +267,7 @@
 
     .song-meta {
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
       margin-top: auto;
       font-size: 0.75rem;
@@ -255,12 +287,160 @@
     .diff-badge.diff-influence { background-color: var(--diff-influence); }
     .diff-badge.diff-polar { background-color: var(--diff-polar); }
 
+    .constant-val {
+      color: var(--accent-gold);
+      font-weight: bold;
+    }
+
     .no-data {
       text-align: center;
       padding: 40px;
       background: var(--card-bg);
       border-radius: 12px;
       color: #8a92a6;
+    }
+
+    /* モーダル */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 800px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      background: #161922;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      font-size: 1.2rem;
+      color: var(--accent-gold);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: #aaa;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #fff;
+    }
+
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #202430;
+      padding: 14px;
+      border-radius: 8px;
+    }
+
+    .filter-title {
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: var(--accent-gold);
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 8px;
+    }
+
+    /* ジャンル用レイアウト: 幅広時は上3・下3の3列配置 */
+    .genre-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px 12px;
+    }
+
+    @media (max-width: 600px) {
+      .genre-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+    }
+
+    .range-inputs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .select-input {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .random-results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .random-card-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .song-index-label {
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--accent-gold);
+      background: #202430;
+      padding: 2px 6px;
+      border-radius: 4px;
+      width: fit-content;
     }
 
     footer {
@@ -284,34 +464,67 @@
       margin-bottom: 0;
     }
 
+    .footer-admin-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
     .footer-admin {
       color: var(--text-color);
       font-weight: bold;
-      margin-top: 10px;
+    }
+
+    .btn-small {
+      background: #202430;
+      color: #aaa;
+      border: 1px solid var(--border-color);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-small:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>ポラリスコード 譜面定数表</h1>
+    <div class="header-top">
+      <h1>ポラリスコード 譜面定数表</h1>
+      <button class="btn" id="open-random-btn">♪ ランダム選曲</button>
+    </div>
+
     <div class="controls">
-      <label class="control-item">
-        <input type="checkbox" id="toggle-hard" checked>
-        HARDを表示
-      </label>
+      <div class="control-row">
+        <label class="control-item">
+          <input type="checkbox" id="toggle-hard" checked>
+          HARDを表示
+        </label>
+        <label class="control-item">
+          <input type="checkbox" id="toggle-normal">
+          NORMAL以下を表示
+        </label>
+      </div>
 
-      <label class="control-item">
-        <input type="checkbox" id="toggle-normal">
-        NORMAL以下を表示
-      </label>
+      <div class="control-row">
+        <label class="control-item">
+          カード幅:
+          <input type="range" id="width-slider" min="120" max="250" value="160">
+        </label>
+      </div>
 
-      <label class="control-item">
-        カード幅:
-        <input type="range" id="width-slider" min="120" max="250" value="160">
-      </label>
-
-      <input type="text" id="search-input" class="search-box" placeholder="楽曲名で検索...">
+      <div class="control-row">
+        <input type="text" id="search-input" class="search-box" placeholder="楽曲名で検索...">
+      </div>
     </div>
   </header>
 
@@ -319,10 +532,80 @@
     <div class="no-data">データを読み込み中...</div>
   </main>
 
+  <!-- ランダム選曲モーダル -->
+  <div class="modal-backdrop" id="random-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>♪ ランダム選曲</h2>
+        <button class="close-btn" id="close-modal-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- 選曲数 -->
+        <div class="filter-group">
+          <div class="filter-title">選曲数</div>
+          <div class="range-inputs">
+            <select id="rand-count" class="select-input">
+              <option value="1">1曲</option>
+              <option value="2">2曲</option>
+              <option value="3">3曲</option>
+              <option value="4">4曲</option>
+              <option value="5" selected>5曲</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 難易度 -->
+        <div class="filter-group">
+          <div class="filter-title">難易度</div>
+          <div class="checkbox-grid">
+            <label class="control-item"><input type="checkbox" class="rand-diff" value="EASY"> EASY</label>
+            <label class="control-item"><input type="checkbox" class="rand-diff" value="NORMAL"> NORMAL</label>
+            <label class="control-item"><input type="checkbox" class="rand-diff" value="HARD" checked> HARD</label>
+            <label class="control-item"><input type="checkbox" class="rand-diff" value="INFLUENCE" checked> INFLUENCE</label>
+            <label class="control-item"><input type="checkbox" class="rand-diff" value="POLAR" checked> POLAR</label>
+          </div>
+        </div>
+
+        <!-- ジャンル (上3・下3の配置、ソーシャル/ミュージックで改行可) -->
+        <div class="filter-group">
+          <div class="filter-title">ジャンル</div>
+          <div class="genre-grid">
+            <label class="control-item"><input type="checkbox" class="rand-genre" value="virtual" checked> Virtual</label>
+            <label class="control-item"><input type="checkbox" class="rand-genre" value="ソーシャルミュージック" checked> ソーシャル<wbr>ミュージック</label>
+            <label class="control-item"><input type="checkbox" class="rand-genre" value="pops&アニメ" checked> POPS&アニメ</label>
+            <label class="control-item"><input type="checkbox" class="rand-genre" value="東方" checked> 東方</label>
+            <label class="control-item"><input type="checkbox" class="rand-genre" value="バラエティ" checked> バラエティ</label>
+            <label class="control-item"><input type="checkbox" class="rand-genre" value="オリジナル" checked> オリジナル</label>
+          </div>
+        </div>
+
+        <!-- 譜面定数 範囲 (データ依存で動的生成) -->
+        <div class="filter-group">
+          <div class="filter-title">譜面定数 範囲</div>
+          <div class="range-inputs">
+            <select id="rand-const-min" class="select-input"></select>
+            <span>〜</span>
+            <select id="rand-const-max" class="select-input"></select>
+          </div>
+        </div>
+
+        <button class="btn" id="draw-random-btn" style="width: 100%; padding: 10px; font-size: 1rem;">抽選実行</button>
+
+        <div id="random-result-container"></div>
+
+      </div>
+    </div>
+  </div>
+
   <footer>
     <p>サイト上の楽曲ジャケット画像の著作権は、全て著作権所持者に帰属します。</p>
     <p>本サイトは非公式のものであり、KONAMI様及びその関連会社とは一切関係ありません。</p>
-    <p class="footer-admin">サイト管理者 : ちーちゃん</p>
+    <div class="footer-admin-row">
+      <span class="footer-admin">サイト管理者 : ちーちゃん</span>
+      <button class="btn-small" onclick="document.getElementById('csv-file-input').click()">📂 CSVを選択</button>
+      <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
+    </div>
   </footer>
 
   <script>
@@ -344,7 +627,60 @@
       document.getElementById("toggle-normal").addEventListener("change", renderTable);
       document.getElementById("width-slider").addEventListener("input", renderTable);
       document.getElementById("search-input").addEventListener("input", renderTable);
+
+      document.getElementById("csv-file-input").addEventListener("change", handleFileSelect);
+
+      const modal = document.getElementById("random-modal");
+      document.getElementById("open-random-btn").addEventListener("click", () => {
+        modal.classList.add("active");
+      });
+      document.getElementById("close-modal-btn").addEventListener("click", () => {
+        modal.classList.remove("active");
+      });
+      document.getElementById("draw-random-btn").addEventListener("click", drawRandomSongs);
     });
+
+    // データの最小値〜最大値に合わせてプルダウンを動的生成
+    function updateConstantSelects() {
+      const minSelect = document.getElementById("rand-const-min");
+      const maxSelect = document.getElementById("rand-const-max");
+      minSelect.innerHTML = "";
+      maxSelect.innerHTML = "";
+
+      if (allSongs.length === 0) {
+        const opt = document.createElement("option");
+        opt.value = "1.0";
+        opt.textContent = "1.0";
+        minSelect.appendChild(opt);
+        maxSelect.appendChild(opt.cloneNode(true));
+        return;
+      }
+
+      const constants = allSongs.map(s => s.constant);
+      const minVal = Math.min(...constants);
+      const maxVal = Math.max(...constants);
+
+      // 0.1刻みの整数キー（例: 2.0 -> 20, 14.4 -> 144）
+      const minKey = Math.floor(Math.round(minVal * 10));
+      const maxKey = Math.ceil(Math.round(maxVal * 10));
+
+      for (let i = minKey; i <= maxKey; i++) {
+        const val = (i / 10).toFixed(1);
+        
+        const optMin = document.createElement("option");
+        optMin.value = val;
+        optMin.textContent = val;
+        minSelect.appendChild(optMin);
+
+        const optMax = document.createElement("option");
+        optMax.value = val;
+        optMax.textContent = val;
+        maxSelect.appendChild(optMax);
+      }
+
+      minSelect.value = (minKey / 10).toFixed(1);
+      maxSelect.value = (maxKey / 10).toFixed(1);
+    }
 
     async function fetchDataCSV() {
       try {
@@ -356,9 +692,20 @@
         document.getElementById("constant-container").innerHTML = `
           <div class="no-data">
             data.csv が見つかりませんでした。<br>
-            「data.csv」をindex.htmlと同じフォルダに配置してください。
+            「data.csv」をindex.htmlと同じフォルダに配置するか、フッターの「CSVを選択」から読み込んでください。
           </div>`;
       }
+    }
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        parseCSV(evt.target.result);
+      };
+      reader.readAsText(file);
     }
 
     function parseCSV(csvText) {
@@ -401,6 +748,9 @@
           }
         }
       }
+
+      // 定数範囲のプルダウンをデータに追従して自動更新
+      updateConstantSelects();
       renderTable();
     }
 
@@ -502,34 +852,91 @@
         grid.className = "song-grid";
 
         grouped[key].forEach(song => {
-          const card = document.createElement("div");
-          const diffKey = song.difficulty.toLowerCase();
-          const diffClass = `diff-${diffKey}`;
-          const genreInfo = getGenreInfo(song.genre);
-
-          card.className = "song-card";
-          card.style.width = cardWidth;
-
-          const jacketHtml = song.jacket 
-            ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=no-jacket>No Image</span>'">`
-            : `<span class="no-jacket">No Image</span>`;
-
-          card.innerHTML = `
-            <div class="jacket-wrapper ${diffClass}">
-              ${jacketHtml}
-              <div class="genre-overlay ${genreInfo.className}">${escapeHTML(genreInfo.label)}</div>
-            </div>
-            <div class="song-title">${escapeHTML(song.title)}</div>
-            <div class="song-meta">
-              <span class="diff-badge ${diffClass}">${escapeHTML(song.difficulty)}</span>
-            </div>
-          `;
+          const card = createSongCard(song, cardWidth);
           grid.appendChild(card);
         });
 
         section.appendChild(grid);
         container.appendChild(section);
       });
+    }
+
+    function createSongCard(song, widthStyle) {
+      const card = document.createElement("div");
+      const diffKey = song.difficulty.toLowerCase();
+      const diffClass = `diff-${diffKey}`;
+      const genreInfo = getGenreInfo(song.genre);
+
+      card.className = "song-card";
+      if (widthStyle) card.style.width = widthStyle;
+
+      const jacketHtml = song.jacket 
+        ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=no-jacket>No Image</span>'">`
+        : `<span class="no-jacket">No Image</span>`;
+
+      card.innerHTML = `
+        <div class="jacket-wrapper ${diffClass}">
+          ${jacketHtml}
+          <div class="genre-overlay ${genreInfo.className}">${escapeHTML(genreInfo.label)}</div>
+        </div>
+        <div class="song-title">${escapeHTML(song.title)}</div>
+        <div class="song-meta">
+          <span class="diff-badge ${diffClass}">${escapeHTML(song.difficulty)}</span>
+          <span class="constant-val">${song.constant.toFixed(1)}</span>
+        </div>
+      `;
+      return card;
+    }
+
+    function drawRandomSongs() {
+      const count = parseInt(document.getElementById("rand-count").value, 10);
+      const selectedDiffs = Array.from(document.querySelectorAll(".rand-diff:checked")).map(el => el.value.toUpperCase());
+      const selectedGenres = Array.from(document.querySelectorAll(".rand-genre:checked")).map(el => el.value.toLowerCase());
+      const minConst = parseFloat(document.getElementById("rand-const-min").value);
+      const maxConst = parseFloat(document.getElementById("rand-const-max").value);
+
+      const pool = allSongs.filter(s => {
+        if (!selectedDiffs.includes(s.difficulty.toUpperCase())) return false;
+
+        const songGenreLower = s.genre.toLowerCase();
+        const matchesGenre = selectedGenres.some(g => songGenreLower.includes(g));
+        if (!matchesGenre) return false;
+
+        if (s.constant < minConst || s.constant > maxConst) return false;
+
+        return true;
+      });
+
+      const resultContainer = document.getElementById("random-result-container");
+      resultContainer.innerHTML = "";
+
+      if (pool.length === 0) {
+        resultContainer.innerHTML = '<div class="no-data">条件に合う楽曲がありませんでした。</div>';
+        return;
+      }
+
+      const shuffled = [...pool].sort(() => Math.random() - 0.5);
+      const selected = shuffled.slice(0, Math.min(count, pool.length));
+
+      const grid = document.createElement("div");
+      grid.className = "random-results-grid";
+
+      selected.forEach((song, idx) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "random-card-wrapper";
+
+        const label = document.createElement("div");
+        label.className = "song-index-label";
+        label.textContent = `${idx + 1}曲目`;
+
+        const card = createSongCard(song, "100%");
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(card);
+        grid.appendChild(wrapper);
+      });
+
+      resultContainer.appendChild(grid);
     }
 
     function escapeHTML(str) {
