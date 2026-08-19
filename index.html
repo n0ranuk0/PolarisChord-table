@@ -523,7 +523,7 @@
       <div class="control-row">
         <label class="control-item">
           カード幅:
-          <input type="range" id="width-slider" min="60" max="200" value="80">
+          <input type="range" id="width-slider" min="60" max="200" value="130">
         </label>
       </div>
 
@@ -626,11 +626,19 @@
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
+      // 画面幅が768px未満（スマホ等）の場合は初期値を80pxにする
+      const slider = document.getElementById("width-slider");
+      if (window.innerWidth < 768) {
+        slider.value = 80;
+      } else {
+        slider.value = 130;
+      }
+
       fetchDataCSV();
 
       document.getElementById("toggle-hard").addEventListener("change", renderTable);
       document.getElementById("toggle-normal").addEventListener("change", renderTable);
-      document.getElementById("width-slider").addEventListener("input", renderTable);
+      slider.addEventListener("input", renderTable);
       document.getElementById("search-input").addEventListener("input", renderTable);
 
       document.getElementById("csv-file-input").addEventListener("change", handleFileSelect);
