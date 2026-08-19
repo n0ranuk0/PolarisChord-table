@@ -37,15 +37,15 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
-      padding: 20px;
+      padding: 12px;
       line-height: 1.5;
     }
 
     header {
       max-width: 1200px;
-      margin: 0 auto 24px auto;
+      margin: 0 auto 16px auto;
       background: #161922;
-      padding: 20px;
+      padding: 14px;
       border-radius: 12px;
       border: 1px solid var(--border-color);
       box-shadow: 0 4px 20px rgba(0,0,0,0.4);
@@ -57,22 +57,22 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     h1 {
-      font-size: 1.6rem;
+      font-size: 1.3rem;
       color: #fff;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     h1::before {
       content: "";
       display: inline-block;
-      width: 6px;
-      height: 1.4rem;
+      width: 5px;
+      height: 1.2rem;
       background: var(--accent-gold);
       border-radius: 3px;
     }
@@ -84,7 +84,7 @@
       padding: 6px 14px;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: bold;
       transition: all 0.2s ease;
     }
@@ -97,9 +97,9 @@
     .controls {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       background: #202430;
-      padding: 14px 16px;
+      padding: 10px 12px;
       border-radius: 8px;
     }
 
@@ -107,17 +107,16 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
     }
 
     .control-item {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
+      gap: 6px;
+      font-size: 0.85rem;
       cursor: pointer;
       word-break: keep-all;
-      overflow-wrap: break-word;
     }
 
     input[type="checkbox"] {
@@ -138,7 +137,7 @@
       border: 1px solid var(--border-color);
       background: var(--card-bg);
       color: #fff;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       outline: none;
     }
 
@@ -152,47 +151,47 @@
     }
 
     .constant-section {
-      margin-bottom: 28px;
+      margin-bottom: 20px;
     }
 
     .constant-header {
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       font-weight: bold;
       color: var(--accent-gold);
       border-bottom: 2px solid var(--border-color);
-      padding-bottom: 6px;
-      margin-bottom: 12px;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .count-badge {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       background: #2b303c;
       color: #aaa;
-      padding: 2px 8px;
-      border-radius: 12px;
+      padding: 2px 6px;
+      border-radius: 10px;
     }
 
     .song-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 6px;
     }
 
     .song-card {
       background: var(--card-bg);
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 0.85rem;
+      border-radius: 6px;
+      padding: 5px;
       border: 1px solid var(--border-color);
       transition: transform 0.1s ease;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
       position: relative;
+      overflow: hidden;
     }
 
     .song-card:hover {
@@ -203,14 +202,14 @@
       position: relative;
       width: 100%;
       aspect-ratio: 1 / 1;
-      border-radius: 6px;
+      border-radius: 4px;
       overflow: hidden;
       background: #282c37;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 4px solid var(--border-color);
-      box-shadow: 0 0 8px rgba(0,0,0,0.5);
+      border-style: solid;
+      box-shadow: 0 0 4px rgba(0,0,0,0.5);
     }
 
     .jacket-wrapper.diff-easy { border-color: var(--diff-easy); }
@@ -227,28 +226,28 @@
     }
 
     .no-jacket {
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       color: #666;
       text-align: center;
-      padding: 4px;
+      padding: 2px;
     }
 
     .genre-overlay {
       position: absolute;
       bottom: 0;
       right: 0;
-      min-width: 28px;
-      height: 20px;
-      padding: 0 8px 0 10px;
+      min-width: 20px;
+      height: 15px;
+      padding: 0 4px 0 6px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 0.75rem;
+      font-size: 0.65rem;
       color: #fff;
-      border-top-left-radius: 8px;
+      border-top-left-radius: 6px;
       clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
-      box-shadow: -2px -2px 6px rgba(0,0,0,0.5);
+      box-shadow: -1px -1px 4px rgba(0,0,0,0.5);
       z-index: 2;
     }
 
@@ -262,7 +261,11 @@
     .song-title {
       font-weight: bold;
       word-break: break-all;
-      line-height: 1.2;
+      line-height: 1.1;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
 
     .song-meta {
@@ -270,15 +273,17 @@
       justify-content: space-between;
       align-items: center;
       margin-top: auto;
-      font-size: 0.75rem;
+      gap: 2px;
     }
 
     .diff-badge {
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 1px 4px;
+      border-radius: 3px;
       font-weight: bold;
       color: #fff;
-      font-size: 0.7rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .diff-badge.diff-easy { background-color: var(--diff-easy); color: #000; }
@@ -290,6 +295,7 @@
     .constant-val {
       color: var(--accent-gold);
       font-weight: bold;
+      white-space: nowrap;
     }
 
     .no-data {
@@ -337,7 +343,7 @@
     }
 
     .modal-header {
-      padding: 16px 20px;
+      padding: 14px 16px;
       background: #161922;
       border-bottom: 1px solid var(--border-color);
       display: flex;
@@ -346,7 +352,7 @@
     }
 
     .modal-header h2 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: var(--accent-gold);
     }
 
@@ -363,19 +369,19 @@
     }
 
     .modal-body {
-      padding: 20px;
+      padding: 16px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
     }
 
     .filter-group {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       background: #202430;
-      padding: 14px;
+      padding: 12px;
       border-radius: 8px;
     }
 
@@ -387,20 +393,19 @@
 
     .checkbox-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 6px;
     }
 
-    /* ジャンル用レイアウト: 幅広時は上3・下3の3列配置 */
     .genre-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px 12px;
+      gap: 6px 8px;
     }
 
     @media (max-width: 600px) {
       .genre-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -408,7 +413,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     .select-input {
@@ -421,20 +426,20 @@
     }
 
     .random-results-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
       margin-top: 10px;
     }
 
     .random-card-wrapper {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
 
     .song-index-label {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: bold;
       color: var(--accent-gold);
       background: #202430;
@@ -445,19 +450,19 @@
 
     footer {
       max-width: 1200px;
-      margin: 40px auto 20px auto;
-      padding: 20px;
+      margin: 30px auto 16px auto;
+      padding: 16px;
       background: #161922;
       border-radius: 12px;
       border: 1px solid var(--border-color);
       color: #8a92a6;
-      font-size: 0.8rem;
-      line-height: 1.6;
+      font-size: 0.75rem;
+      line-height: 1.5;
       text-align: center;
     }
 
     footer p {
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     footer p:last-child {
@@ -468,8 +473,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-top: 10px;
+      gap: 10px;
+      margin-top: 8px;
       flex-wrap: wrap;
     }
 
@@ -518,7 +523,7 @@
       <div class="control-row">
         <label class="control-item">
           カード幅:
-          <input type="range" id="width-slider" min="120" max="250" value="160">
+          <input type="range" id="width-slider" min="60" max="200" value="80">
         </label>
       </div>
 
@@ -567,7 +572,7 @@
           </div>
         </div>
 
-        <!-- ジャンル (上3・下3の配置、ソーシャル/ミュージックで改行可) -->
+        <!-- ジャンル -->
         <div class="filter-group">
           <div class="filter-title">ジャンル</div>
           <div class="genre-grid">
@@ -580,7 +585,7 @@
           </div>
         </div>
 
-        <!-- 譜面定数 範囲 (データ依存で動的生成) -->
+        <!-- 譜面定数 範囲 -->
         <div class="filter-group">
           <div class="filter-title">譜面定数 範囲</div>
           <div class="range-inputs">
@@ -640,7 +645,6 @@
       document.getElementById("draw-random-btn").addEventListener("click", drawRandomSongs);
     });
 
-    // データの最小値〜最大値に合わせてプルダウンを動的生成
     function updateConstantSelects() {
       const minSelect = document.getElementById("rand-const-min");
       const maxSelect = document.getElementById("rand-const-max");
@@ -660,7 +664,6 @@
       const minVal = Math.min(...constants);
       const maxVal = Math.max(...constants);
 
-      // 0.1刻みの整数キー（例: 2.0 -> 20, 14.4 -> 144）
       const minKey = Math.floor(Math.round(minVal * 10));
       const maxKey = Math.ceil(Math.round(maxVal * 10));
 
@@ -749,7 +752,6 @@
         }
       }
 
-      // 定数範囲のプルダウンをデータに追従して自動更新
       updateConstantSelects();
       renderTable();
     }
@@ -795,7 +797,8 @@
       const container = document.getElementById("constant-container");
       const showHard = document.getElementById("toggle-hard").checked;
       const showNormal = document.getElementById("toggle-normal").checked;
-      const cardWidth = document.getElementById("width-slider").value + "px";
+      const cardWidthPx = parseInt(document.getElementById("width-slider").value, 10);
+      const cardWidth = cardWidthPx + "px";
       const searchText = document.getElementById("search-input").value.toLowerCase();
 
       container.innerHTML = "";
@@ -852,7 +855,7 @@
         grid.className = "song-grid";
 
         grouped[key].forEach(song => {
-          const card = createSongCard(song, cardWidth);
+          const card = createSongCard(song, cardWidth, cardWidthPx);
           grid.appendChild(card);
         });
 
@@ -861,7 +864,7 @@
       });
     }
 
-    function createSongCard(song, widthStyle) {
+    function createSongCard(song, widthStyle, widthPx = 160) {
       const card = document.createElement("div");
       const diffKey = song.difficulty.toLowerCase();
       const diffClass = `diff-${diffKey}`;
@@ -874,16 +877,34 @@
         ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=no-jacket>No Image</span>'">`
         : `<span class="no-jacket">No Image</span>`;
 
+      // 幅に応じた文字サイズと枠線太さの計算
+      const titleFontSize = Math.max(0.6, Math.min(0.85, widthPx / 150)) + "rem";
+      const metaFontSize = Math.max(0.55, Math.min(0.75, widthPx / 170)) + "rem";
+      const borderWidth = Math.max(2, Math.round(widthPx / 35)) + "px";
+
+      // 難易度名の短縮（幅が狭い場合）
+      let diffLabel = song.difficulty;
+      if (widthPx < 110) {
+        if (diffLabel === "INFLUENCE") diffLabel = "INF";
+        else if (diffLabel === "NORMAL") diffLabel = "NOR";
+        else if (diffLabel === "POLAR") diffLabel = "POL";
+      }
+
+      // 幅が80px未満の場合はジャケットのみの超コンパクト表示
+      const showText = widthPx >= 80;
+
       card.innerHTML = `
-        <div class="jacket-wrapper ${diffClass}">
+        <div class="jacket-wrapper ${diffClass}" style="border-width: ${borderWidth};">
           ${jacketHtml}
           <div class="genre-overlay ${genreInfo.className}">${escapeHTML(genreInfo.label)}</div>
         </div>
-        <div class="song-title">${escapeHTML(song.title)}</div>
-        <div class="song-meta">
-          <span class="diff-badge ${diffClass}">${escapeHTML(song.difficulty)}</span>
-          <span class="constant-val">${song.constant.toFixed(1)}</span>
-        </div>
+        ${showText ? `
+          <div class="song-title" style="font-size: ${titleFontSize};">${escapeHTML(song.title)}</div>
+          <div class="song-meta" style="font-size: ${metaFontSize};">
+            <span class="diff-badge ${diffClass}">${escapeHTML(diffLabel)}</span>
+            <span class="constant-val">${song.constant.toFixed(1)}</span>
+          </div>
+        ` : ''}
       `;
       return card;
     }
@@ -929,7 +950,7 @@
         label.className = "song-index-label";
         label.textContent = `${idx + 1}曲目`;
 
-        const card = createSongCard(song, "100%");
+        const card = createSongCard(song, "100px", 100);
 
         wrapper.appendChild(label);
         wrapper.appendChild(card);
