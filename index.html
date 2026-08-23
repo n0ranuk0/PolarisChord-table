@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,12 +20,18 @@
       --diff-polar: #a020f0;
 
       /* ジャンルカラー */
-      --genre-virtual: #a020f0;  /* V / 紫 */
-      --genre-social: #1e90ff;   /* ソ / 青 */
-      --genre-pops: #ffd700;     /* ポ / 黄 */
-      --genre-touhou: #ff8c00;   /* 東 / 橙 */
-      --genre-variety: #32cd32;  /* バ / 緑 */
-      --genre-original: #00bfff; /* オ / 水色 */
+      --genre-virtual: #a020f0;
+      /* V / 紫 */
+      --genre-social: #1e90ff;
+      /* ソ / 青 */
+      --genre-pops: #ffd700;
+      /* ポ / 黄 */
+      --genre-touhou: #ff8c00;
+      /* 東 / 橙 */
+      --genre-variety: #32cd32;
+      /* バ / 緑 */
+      --genre-original: #00bfff;
+      /* オ / 水色 */
     }
 
     * {
@@ -48,7 +55,7 @@
       padding: 14px;
       border-radius: 12px;
       border: 1px solid var(--border-color);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .header-top {
@@ -189,7 +196,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
       position: relative;
       overflow: hidden;
     }
@@ -209,14 +216,28 @@
       align-items: center;
       justify-content: center;
       border-style: solid;
-      box-shadow: 0 0 4px rgba(0,0,0,0.5);
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     }
 
-    .jacket-wrapper.diff-easy { border-color: var(--diff-easy); }
-    .jacket-wrapper.diff-normal { border-color: var(--diff-normal); }
-    .jacket-wrapper.diff-hard { border-color: var(--diff-hard); }
-    .jacket-wrapper.diff-influence { border-color: var(--diff-influence); }
-    .jacket-wrapper.diff-polar { border-color: var(--diff-polar); }
+    .jacket-wrapper.diff-easy {
+      border-color: var(--diff-easy);
+    }
+
+    .jacket-wrapper.diff-normal {
+      border-color: var(--diff-normal);
+    }
+
+    .jacket-wrapper.diff-hard {
+      border-color: var(--diff-hard);
+    }
+
+    .jacket-wrapper.diff-influence {
+      border-color: var(--diff-influence);
+    }
+
+    .jacket-wrapper.diff-polar {
+      border-color: var(--diff-polar);
+    }
 
     .song-jacket {
       width: 100%;
@@ -247,16 +268,36 @@
       color: #fff;
       border-top-left-radius: 6px;
       clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
-      box-shadow: -1px -1px 4px rgba(0,0,0,0.5);
+      box-shadow: -1px -1px 4px rgba(0, 0, 0, 0.5);
       z-index: 2;
     }
 
-    .genre-overlay.genre-virtual { background-color: var(--genre-virtual); }
-    .genre-overlay.genre-social { background-color: var(--genre-social); }
-    .genre-overlay.genre-pops { background-color: var(--genre-pops); color: #000; }
-    .genre-overlay.genre-touhou { background-color: var(--genre-touhou); }
-    .genre-overlay.genre-variety { background-color: var(--genre-variety); color: #000; }
-    .genre-overlay.genre-original { background-color: var(--genre-original); color: #000; }
+    .genre-overlay.genre-virtual {
+      background-color: var(--genre-virtual);
+    }
+
+    .genre-overlay.genre-social {
+      background-color: var(--genre-social);
+    }
+
+    .genre-overlay.genre-pops {
+      background-color: var(--genre-pops);
+      color: #000;
+    }
+
+    .genre-overlay.genre-touhou {
+      background-color: var(--genre-touhou);
+    }
+
+    .genre-overlay.genre-variety {
+      background-color: var(--genre-variety);
+      color: #000;
+    }
+
+    .genre-overlay.genre-original {
+      background-color: var(--genre-original);
+      color: #000;
+    }
 
     .song-title {
       font-weight: bold;
@@ -286,11 +327,27 @@
       text-overflow: ellipsis;
     }
 
-    .diff-badge.diff-easy { background-color: var(--diff-easy); color: #000; }
-    .diff-badge.diff-normal { background-color: var(--diff-normal); color: #000; }
-    .diff-badge.diff-hard { background-color: var(--diff-hard); }
-    .diff-badge.diff-influence { background-color: var(--diff-influence); }
-    .diff-badge.diff-polar { background-color: var(--diff-polar); }
+    .diff-badge.diff-easy {
+      background-color: var(--diff-easy);
+      color: #000;
+    }
+
+    .diff-badge.diff-normal {
+      background-color: var(--diff-normal);
+      color: #000;
+    }
+
+    .diff-badge.diff-hard {
+      background-color: var(--diff-hard);
+    }
+
+    .diff-badge.diff-influence {
+      background-color: var(--diff-influence);
+    }
+
+    .diff-badge.diff-polar {
+      background-color: var(--diff-polar);
+    }
 
     .constant-val {
       color: var(--accent-gold);
@@ -339,7 +396,7 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     }
 
     .modal-header {
@@ -500,6 +557,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -523,7 +581,8 @@
       <div class="control-row">
         <label class="control-item">
           カード幅:
-          <input type="range" id="width-slider" min="60" max="200" value="130">
+          <input type="range" id="width-slider" min="50" max="200" value="130">
+          <span id="width-value" style="color: var(--accent-gold); font-weight: bold; min-width: 45px;">130px</span>
         </label>
       </div>
 
@@ -545,7 +604,7 @@
         <button class="close-btn" id="close-modal-btn">&times;</button>
       </div>
       <div class="modal-body">
-        
+
         <!-- 選曲数 -->
         <div class="filter-group">
           <div class="filter-title">選曲数</div>
@@ -567,7 +626,8 @@
             <label class="control-item"><input type="checkbox" class="rand-diff" value="EASY"> EASY</label>
             <label class="control-item"><input type="checkbox" class="rand-diff" value="NORMAL"> NORMAL</label>
             <label class="control-item"><input type="checkbox" class="rand-diff" value="HARD" checked> HARD</label>
-            <label class="control-item"><input type="checkbox" class="rand-diff" value="INFLUENCE" checked> INFLUENCE</label>
+            <label class="control-item"><input type="checkbox" class="rand-diff" value="INFLUENCE" checked>
+              INFLUENCE</label>
             <label class="control-item"><input type="checkbox" class="rand-diff" value="POLAR" checked> POLAR</label>
           </div>
         </div>
@@ -576,9 +636,12 @@
         <div class="filter-group">
           <div class="filter-title">ジャンル</div>
           <div class="genre-grid">
-            <label class="control-item"><input type="checkbox" class="rand-genre" value="virtual" checked> Virtual</label>
-            <label class="control-item"><input type="checkbox" class="rand-genre" value="ソーシャルミュージック" checked> ソーシャル<wbr>ミュージック</label>
-            <label class="control-item"><input type="checkbox" class="rand-genre" value="pops&アニメ" checked> POPS&アニメ</label>
+            <label class="control-item"><input type="checkbox" class="rand-genre" value="virtual" checked>
+              Virtual</label>
+            <label class="control-item"><input type="checkbox" class="rand-genre" value="ソーシャルミュージック" checked>
+              ソーシャル<wbr>ミュージック</label>
+            <label class="control-item"><input type="checkbox" class="rand-genre" value="pops&アニメ" checked>
+              POPS&アニメ</label>
             <label class="control-item"><input type="checkbox" class="rand-genre" value="東方" checked> 東方</label>
             <label class="control-item"><input type="checkbox" class="rand-genre" value="バラエティ" checked> バラエティ</label>
             <label class="control-item"><input type="checkbox" class="rand-genre" value="オリジナル" checked> オリジナル</label>
@@ -626,21 +689,30 @@
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
-      // 画面幅が768px未満（スマホ等）の場合は初期値を90pxにする
       const slider = document.getElementById("width-slider");
+      const widthValSpan = document.getElementById("width-value");
+
+      // スマホ（768px未満）では5曲並ぶ66px、PC等では130pxを初期値にする
       if (window.innerWidth < 768) {
-        slider.value = 90;
+        slider.value = 66;
       } else {
         slider.value = 130;
       }
+      // 初期の数値表示を更新
+      widthValSpan.textContent = slider.value + "px";
 
       fetchDataCSV();
 
       document.getElementById("toggle-hard").addEventListener("change", renderTable);
       document.getElementById("toggle-normal").addEventListener("change", renderTable);
-      slider.addEventListener("input", renderTable);
-      document.getElementById("search-input").addEventListener("input", renderTable);
 
+      // スライダー動かすたびに数値テキストを更新して描画
+      slider.addEventListener("input", (e) => {
+        widthValSpan.textContent = e.target.value + "px";
+        renderTable();
+      });
+
+      document.getElementById("search-input").addEventListener("input", renderTable);
       document.getElementById("csv-file-input").addEventListener("change", handleFileSelect);
 
       const modal = document.getElementById("random-modal");
@@ -677,7 +749,7 @@
 
       for (let i = minKey; i <= maxKey; i++) {
         const val = (i / 10).toFixed(1);
-        
+
         const optMin = document.createElement("option");
         optMin.value = val;
         optMin.textContent = val;
@@ -881,7 +953,7 @@
       card.className = "song-card";
       if (widthStyle) card.style.width = widthStyle;
 
-      const jacketHtml = song.jacket 
+      const jacketHtml = song.jacket
         ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=no-jacket>No Image</span>'">`
         : `<span class="no-jacket">No Image</span>`;
 
@@ -969,7 +1041,7 @@
     }
 
     function escapeHTML(str) {
-      return str.replace(/[&<>'"]/g, 
+      return str.replace(/[&<>'"]/g,
         tag => ({
           '&': '&amp;',
           '<': '&lt;',
@@ -981,4 +1053,5 @@
     }
   </script>
 </body>
+
 </html>
