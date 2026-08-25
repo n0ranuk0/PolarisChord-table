@@ -692,11 +692,11 @@
       const slider = document.getElementById("width-slider");
       const widthValSpan = document.getElementById("width-value");
 
-      // スマホ（768px未満）では4曲並ぶ95px、PC等では130pxを初期値にする
+      // スマホ（768px未満）では4曲並ぶ95px、PC等では140pxを初期値にする
       if (window.innerWidth < 768) {
         slider.value = 95;
       } else {
-        slider.value = 130;
+        slider.value = 140;
       }
       // 初期の数値表示を更新
       widthValSpan.textContent = slider.value + "px";
