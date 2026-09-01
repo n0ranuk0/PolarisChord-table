@@ -20,18 +20,12 @@
       --diff-polar: #a020f0;
 
       /* ジャンルカラー */
-      --genre-virtual: #a020f0;
-      /* V / 紫 */
-      --genre-social: #1e90ff;
-      /* ソ / 青 */
-      --genre-pops: #ffd700;
-      /* ポ / 黄 */
-      --genre-touhou: #ff8c00;
-      /* 東 / 橙 */
-      --genre-variety: #32cd32;
-      /* バ / 緑 */
-      --genre-original: #00bfff;
-      /* オ / 水色 */
+      --genre-virtual: #a020f0;  /* V / 紫 */
+      --genre-social: #1e90ff;   /* ソ / 青 */
+      --genre-pops: #ffd700;     /* ポ / 黄 */
+      --genre-touhou: #ff8c00;   /* 東 / 橙 */
+      --genre-variety: #32cd32;  /* バ / 緑 */
+      --genre-original: #00bfff; /* オ / 水色 */
     }
 
     * {
@@ -65,6 +59,12 @@
       justify-content: space-between;
       gap: 12px;
       margin-bottom: 12px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     h1 {
@@ -219,25 +219,11 @@
       box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
     }
 
-    .jacket-wrapper.diff-easy {
-      border-color: var(--diff-easy);
-    }
-
-    .jacket-wrapper.diff-normal {
-      border-color: var(--diff-normal);
-    }
-
-    .jacket-wrapper.diff-hard {
-      border-color: var(--diff-hard);
-    }
-
-    .jacket-wrapper.diff-influence {
-      border-color: var(--diff-influence);
-    }
-
-    .jacket-wrapper.diff-polar {
-      border-color: var(--diff-polar);
-    }
+    .jacket-wrapper.diff-easy { border-color: var(--diff-easy); }
+    .jacket-wrapper.diff-normal { border-color: var(--diff-normal); }
+    .jacket-wrapper.diff-hard { border-color: var(--diff-hard); }
+    .jacket-wrapper.diff-influence { border-color: var(--diff-influence); }
+    .jacket-wrapper.diff-polar { border-color: var(--diff-polar); }
 
     .song-jacket {
       width: 100%;
@@ -272,32 +258,12 @@
       z-index: 2;
     }
 
-    .genre-overlay.genre-virtual {
-      background-color: var(--genre-virtual);
-    }
-
-    .genre-overlay.genre-social {
-      background-color: var(--genre-social);
-    }
-
-    .genre-overlay.genre-pops {
-      background-color: var(--genre-pops);
-      color: #000;
-    }
-
-    .genre-overlay.genre-touhou {
-      background-color: var(--genre-touhou);
-    }
-
-    .genre-overlay.genre-variety {
-      background-color: var(--genre-variety);
-      color: #000;
-    }
-
-    .genre-overlay.genre-original {
-      background-color: var(--genre-original);
-      color: #000;
-    }
+    .genre-overlay.genre-virtual { background-color: var(--genre-virtual); }
+    .genre-overlay.genre-social { background-color: var(--genre-social); }
+    .genre-overlay.genre-pops { background-color: var(--genre-pops); color: #000; }
+    .genre-overlay.genre-touhou { background-color: var(--genre-touhou); }
+    .genre-overlay.genre-variety { background-color: var(--genre-variety); color: #000; }
+    .genre-overlay.genre-original { background-color: var(--genre-original); color: #000; }
 
     .song-title {
       font-weight: bold;
@@ -327,27 +293,11 @@
       text-overflow: ellipsis;
     }
 
-    .diff-badge.diff-easy {
-      background-color: var(--diff-easy);
-      color: #000;
-    }
-
-    .diff-badge.diff-normal {
-      background-color: var(--diff-normal);
-      color: #000;
-    }
-
-    .diff-badge.diff-hard {
-      background-color: var(--diff-hard);
-    }
-
-    .diff-badge.diff-influence {
-      background-color: var(--diff-influence);
-    }
-
-    .diff-badge.diff-polar {
-      background-color: var(--diff-polar);
-    }
+    .diff-badge.diff-easy { background-color: var(--diff-easy); color: #000; }
+    .diff-badge.diff-normal { background-color: var(--diff-normal); color: #000; }
+    .diff-badge.diff-hard { background-color: var(--diff-hard); }
+    .diff-badge.diff-influence { background-color: var(--diff-influence); }
+    .diff-badge.diff-polar { background-color: var(--diff-polar); }
 
     .constant-val {
       color: var(--accent-gold);
@@ -563,7 +513,13 @@
   <header>
     <div class="header-top">
       <h1>ポラリスコード 譜面定数表</h1>
-      <button class="btn" id="open-random-btn">♪ ランダム選曲</button>
+      <div class="header-actions">
+        <select id="sort-type" class="select-input" style="font-weight: bold;">
+          <option value="constant">定数順</option>
+          <option value="level">レベル順</option>
+        </select>
+        <button class="btn" id="open-random-btn">♪ ランダム選曲</button>
+      </div>
     </div>
 
     <div class="controls">
@@ -692,21 +648,19 @@
       const slider = document.getElementById("width-slider");
       const widthValSpan = document.getElementById("width-value");
 
-      // スマホ（768px未満）では4曲並ぶ95px、PC等では140pxを初期値にする
       if (window.innerWidth < 768) {
         slider.value = 95;
       } else {
         slider.value = 140;
       }
-      // 初期の数値表示を更新
       widthValSpan.textContent = slider.value + "px";
 
       fetchDataCSV();
 
+      document.getElementById("sort-type").addEventListener("change", renderTable);
       document.getElementById("toggle-hard").addEventListener("change", renderTable);
       document.getElementById("toggle-normal").addEventListener("change", renderTable);
 
-      // スライダー動かすたびに数値テキストを更新して描画
       slider.addEventListener("input", (e) => {
         widthValSpan.textContent = e.target.value + "px";
         renderTable();
@@ -724,6 +678,21 @@
       });
       document.getElementById("draw-random-btn").addEventListener("click", drawRandomSongs);
     });
+
+    function getLevelLabel(constant) {
+      const base = Math.floor(constant);
+      const frac = Math.round((constant - base) * 10);
+      if (frac >= 7) {
+        return `${base}+`;
+      }
+      return `${base}`;
+    }
+
+    function parseLevelKey(levelStr) {
+      const isPlus = levelStr.endsWith('+');
+      const num = parseInt(levelStr, 10);
+      return num + (isPlus ? 0.5 : 0.0);
+    }
 
     function updateConstantSelects() {
       const minSelect = document.getElementById("rand-const-min");
@@ -875,6 +844,7 @@
 
     function renderTable() {
       const container = document.getElementById("constant-container");
+      const sortType = document.getElementById("sort-type").value;
       const showHard = document.getElementById("toggle-hard").checked;
       const showNormal = document.getElementById("toggle-normal").checked;
       const cardWidthPx = parseInt(document.getElementById("width-slider").value, 10);
@@ -898,15 +868,30 @@
 
       const grouped = {};
       filtered.forEach(song => {
-        const key = song.constant.toFixed(1);
+        let key;
+        if (sortType === "level") {
+          key = getLevelLabel(song.constant);
+        } else {
+          key = song.constant.toFixed(1);
+        }
+
         if (!grouped[key]) grouped[key] = [];
         grouped[key].push(song);
       });
 
-      const sortedKeys = Object.keys(grouped).sort((a, b) => parseFloat(b) - parseFloat(a));
+      let sortedKeys;
+      if (sortType === "level") {
+        sortedKeys = Object.keys(grouped).sort((a, b) => parseLevelKey(b) - parseLevelKey(a));
+      } else {
+        sortedKeys = Object.keys(grouped).sort((a, b) => parseFloat(b) - parseFloat(a));
+      }
 
       sortedKeys.forEach(key => {
         grouped[key].sort((a, b) => {
+          if (sortType === "level" && a.constant !== b.constant) {
+            return b.constant - a.constant;
+          }
+
           if (a.releaseDate.getTime() !== b.releaseDate.getTime()) {
             return a.releaseDate.getTime() - b.releaseDate.getTime();
           }
@@ -957,12 +942,10 @@
         ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=no-jacket>No Image</span>'">`
         : `<span class="no-jacket">No Image</span>`;
 
-      // 幅に応じた文字サイズと枠線太さの計算
       const titleFontSize = Math.max(0.6, Math.min(0.85, widthPx / 150)) + "rem";
       const metaFontSize = Math.max(0.55, Math.min(0.75, widthPx / 170)) + "rem";
       const borderWidth = Math.max(2, Math.round(widthPx / 35)) + "px";
 
-      // 難易度名の短縮（幅が狭い場合）
       let diffLabel = song.difficulty;
       if (widthPx < 110) {
         if (diffLabel === "INFLUENCE") diffLabel = "INF";
@@ -970,7 +953,6 @@
         else if (diffLabel === "POLAR") diffLabel = "POL";
       }
 
-      // 幅が80px未満の場合はジャケットのみの超コンパクト表示
       const showText = widthPx >= 80;
 
       card.innerHTML = `
