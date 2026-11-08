@@ -94,6 +94,10 @@
       font-size: 0.85rem;
       font-weight: bold;
       transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn:hover {
@@ -199,10 +203,12 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
       position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
 
     .song-card:hover {
       transform: translateY(-2px);
+      border-color: var(--accent-gold);
     }
 
     .jacket-wrapper {
@@ -254,7 +260,7 @@
       color: #fff;
       border-top-left-radius: 6px;
       clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
-      box-shadow: -1px -1px 4px rgba(0, 0, 0, 0.5);
+      box-shadow: -1px -1px 4px rgba(0,0,0,0.5);
       z-index: 2;
     }
 
@@ -313,7 +319,7 @@
       color: #8a92a6;
     }
 
-    /* モーダル */
+    /* モーダル共通 */
     .modal-backdrop {
       position: fixed;
       top: 0;
@@ -325,7 +331,7 @@
       align-items: center;
       justify-content: center;
       z-index: 100;
-      padding: 16px;
+      padding: 12px;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease;
@@ -341,8 +347,8 @@
       border: 1px solid var(--border-color);
       border-radius: 12px;
       width: 100%;
-      max-width: 800px;
-      max-height: 90vh;
+      max-width: 440px;
+      max-height: 95vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -350,25 +356,31 @@
     }
 
     .modal-header {
-      padding: 14px 16px;
+      padding: 10px 14px;
       background: #161922;
       border-bottom: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
     }
 
     .modal-header h2 {
-      font-size: 1.1rem;
+      font-size: 0.95rem;
       color: var(--accent-gold);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-grow: 1;
     }
 
     .close-btn {
       background: none;
       border: none;
       color: #aaa;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .close-btn:hover {
@@ -376,11 +388,126 @@
     }
 
     .modal-body {
-      padding: 16px;
+      padding: 12px 16px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 10px;
+    }
+
+    /* 曲詳細モーダル特有のデザイン（左右に余白・フレーム感を演出） */
+    .song-detail-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .detail-jacket-wrapper {
+      width: 190px;
+      height: 190px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #161922; /* 額縁の背景（余白部分の色） */
+      border: 6px solid #161922; /* 左右にしっかりした厚みのあるフレーム枠 */
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .detail-jacket {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* 綺麗に収まるように調整 */
+      border-radius: 4px;
+    }
+
+    .detail-genre-badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: #fff;
+      background: #333;
+    }
+
+    /* 難易度ごとのカラー枠線 */
+    .detail-diff-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      width: 100%;
+    }
+
+    .detail-diff-item {
+      background: #202430;
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      padding: 6px 2px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .detail-diff-item.diff-easy { border-color: var(--diff-easy); }
+    .detail-diff-item.diff-normal { border-color: var(--diff-normal); }
+    .detail-diff-item.diff-hard { border-color: var(--diff-hard); }
+    .detail-diff-item.diff-influence { border-color: var(--diff-influence); }
+    .detail-diff-item.diff-polar { border-color: var(--diff-polar); }
+
+    .detail-diff-name {
+      font-size: 0.65rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .detail-diff-const {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .detail-diff-item.no-diff {
+      opacity: 0.3;
+      border-color: var(--border-color);
+    }
+
+    /* 曲情報リスト */
+    .detail-info-box {
+      width: 100%;
+      background: #202430;
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+
+    .detail-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 4px;
+    }
+
+    .detail-info-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .detail-info-label {
+      color: #8a92a6;
+    }
+
+    .detail-info-value {
+      font-weight: bold;
+      color: #fff;
     }
 
     .filter-group {
@@ -552,6 +679,19 @@
     <div class="no-data">データを読み込み中...</div>
   </main>
 
+  <!-- 曲詳細モーダル -->
+  <div class="modal-backdrop" id="song-detail-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-song-title-header">楽曲詳細</h2>
+        <button class="close-btn" id="close-detail-modal-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="song-detail-body">
+        <!-- JSで動的に挿入されます -->
+      </div>
+    </div>
+  </div>
+
   <!-- ランダム選曲モーダル -->
   <div class="modal-backdrop" id="random-modal">
     <div class="modal-content">
@@ -651,7 +791,7 @@
       if (window.innerWidth < 768) {
         slider.value = 95;
       } else {
-        slider.value = 140;
+        slider.value = 130;
       }
       widthValSpan.textContent = slider.value + "px";
 
@@ -669,14 +809,25 @@
       document.getElementById("search-input").addEventListener("input", renderTable);
       document.getElementById("csv-file-input").addEventListener("change", handleFileSelect);
 
-      const modal = document.getElementById("random-modal");
+      const randomModal = document.getElementById("random-modal");
       document.getElementById("open-random-btn").addEventListener("click", () => {
-        modal.classList.add("active");
+        randomModal.classList.add("active");
       });
       document.getElementById("close-modal-btn").addEventListener("click", () => {
-        modal.classList.remove("active");
+        randomModal.classList.remove("active");
       });
       document.getElementById("draw-random-btn").addEventListener("click", drawRandomSongs);
+
+      const detailModal = document.getElementById("song-detail-modal");
+      document.getElementById("close-detail-modal-btn").addEventListener("click", () => {
+        detailModal.classList.remove("active");
+      });
+      detailModal.addEventListener("click", (e) => {
+        if (e.target === detailModal) detailModal.classList.remove("active");
+      });
+      randomModal.addEventListener("click", (e) => {
+        if (e.target === randomModal) randomModal.classList.remove("active");
+      });
     });
 
     function getLevelLabel(constant) {
@@ -770,13 +921,16 @@
       allSongs = [];
       for (let i = 1; i < lines.length; i++) {
         const row = parseCSVLine(lines[i]);
-        if (row.length >= 3) {
+        if (row.length >= 6) {
           const title = row[0]?.trim() || "";
-          const genre = row[1]?.trim() || "";
-          const constant = parseFloat(row[2]);
-          const difficulty = row[3]?.trim() || "POLAR";
-          const releaseDateRaw = row[4]?.trim() || "";
-          const jacket = row[5]?.trim() || "";
+          const composer = row[1]?.trim() || "-";
+          const bpm = row[2]?.trim() || "-";
+          const genre = row[3]?.trim() || "";
+          const constant = parseFloat(row[4]);
+          const difficulty = row[5]?.trim() || "POLAR";
+          const releaseDateRaw = row[6]?.trim() || "";
+          const jacket = row[7]?.trim() || "";
+          const videoLink = row[8]?.trim() || "";
 
           let releaseDate = new Date("9999-12-31");
           if (releaseDateRaw) {
@@ -790,12 +944,15 @@
           if (title && !isNaN(constant)) {
             allSongs.push({
               title,
+              composer: composer || "-",
+              bpm: bpm || "-",
               genre,
               constant,
               difficulty,
               releaseDateRaw,
               releaseDate,
-              jacket
+              jacket,
+              videoLink
             });
           }
         }
@@ -938,6 +1095,10 @@
       card.className = "song-card";
       if (widthStyle) card.style.width = widthStyle;
 
+      card.addEventListener("click", () => {
+        openSongDetailModal(song.title);
+      });
+
       const jacketHtml = song.jacket
         ? `<img class="song-jacket" src="${escapeHTML(song.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=no-jacket>No Image</span>'">`
         : `<span class="no-jacket">No Image</span>`;
@@ -949,8 +1110,8 @@
       let diffLabel = song.difficulty;
       if (widthPx < 110) {
         if (diffLabel === "INFLUENCE") diffLabel = "INF";
-        else if (diffLabel === "NORMAL") diffLabel = "NOR";
         else if (diffLabel === "POLAR") diffLabel = "POL";
+        else if (diffLabel === "NORMAL") diffLabel = "NOR";
       }
 
       const showText = widthPx >= 80;
@@ -969,6 +1130,84 @@
         ` : ''}
       `;
       return card;
+    }
+
+    function openSongDetailModal(songTitle) {
+      const sameSongs = allSongs.filter(s => s.title === songTitle);
+      if (sameSongs.length === 0) return;
+
+      const representative = sameSongs[0];
+      const modalBody = document.getElementById("song-detail-body");
+      document.getElementById("modal-song-title-header").textContent = representative.title;
+
+      const diffOrder = ["EASY", "NORMAL", "HARD", "INFLUENCE", "POLAR"];
+      
+      let diffItemsHtml = "";
+      diffOrder.forEach(diffName => {
+        const found = sameSongs.find(s => s.difficulty.toUpperCase() === diffName);
+        const diffClassLower = diffName.toLowerCase();
+        if (found) {
+          diffItemsHtml += `
+            <div class="detail-diff-item diff-${diffClassLower}">
+              <span class="detail-diff-name">${diffName}</span>
+              <span class="detail-diff-const">${found.constant.toFixed(1)}</span>
+            </div>
+          `;
+        } else {
+          diffItemsHtml += `
+            <div class="detail-diff-item no-diff">
+              <span class="detail-diff-name">${diffName}</span>
+              <span class="detail-diff-const">-</span>
+            </div>
+          `;
+        }
+      });
+
+      const jacketHtml = representative.jacket
+        ? `<img class="detail-jacket" src="${escapeHTML(representative.jacket)}" alt="jacket" onerror="this.parentNode.innerHTML='<span class=no-jacket>No Image</span>'">`
+        : `<span class="no-jacket">No Image</span>`;
+
+      let videoBtnHtml = `<span style="color: #666; font-size: 0.85rem;">未設定</span>`;
+      if (representative.videoLink && representative.videoLink !== "-") {
+        videoBtnHtml = `<a href="${escapeHTML(representative.videoLink)}" target="_blank" class="btn" style="padding: 4px 12px; font-size: 0.8rem;">▶ 譜面動画に</a>`;
+      }
+
+      modalBody.innerHTML = `
+        <div class="song-detail-container">
+          <div class="detail-jacket-wrapper">
+            ${jacketHtml}
+          </div>
+          <span class="detail-genre-badge">${escapeHTML(representative.genre)}</span>
+
+          <div style="width: 100%;">
+            <div style="font-size: 0.75rem; font-weight: bold; color: var(--accent-gold); margin-bottom: 4px;">LEVEL</div>
+            <div class="detail-diff-grid">
+              ${diffItemsHtml}
+            </div>
+          </div>
+
+          <div class="detail-info-box">
+            <div class="detail-info-row">
+              <span class="detail-info-label">作曲者</span>
+              <span class="detail-info-value">${escapeHTML(representative.composer)}</span>
+            </div>
+            <div class="detail-info-row">
+              <span class="detail-info-label">BPM</span>
+              <span class="detail-info-value">${escapeHTML(representative.bpm)}</span>
+            </div>
+            <div class="detail-info-row">
+              <span class="detail-info-label">配信日</span>
+              <span class="detail-info-value">${escapeHTML(representative.releaseDateRaw || "-")}</span>
+            </div>
+            <div class="detail-info-row">
+              <span class="detail-info-label">譜面動画</span>
+              <span class="detail-info-value">${videoBtnHtml}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("song-detail-modal").classList.add("active");
     }
 
     function drawRandomSongs() {
